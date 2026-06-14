@@ -1,12 +1,33 @@
+import '../App.css'
 import '../index.css'
+import { memo } from 'react';
 
-// export default function Card({ userName, userDescription, userInterests, userSocials }){
-export default function Card( {user} ){
+export default memo(function Card( {user} ){
+    async function deleteUser(){
+        const _id = user._id;
+
+        try{
+            const response = await fetch('http://localhost:3000/user/delete', {
+                method: 'POST',
+                headers:  {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({_id})
+            });
+            const data = await response.json();
+            alert(data.message);
+        }
+        catch(e){
+            console.log(e.message);
+        }
+    }
+
     return (
-        <div className='card' style={{
-
-            }}>
-            <h2 className='headings'>{user.name}</h2>
+        <div className='card'>
+            <div className='space-between'>
+                <h2 className='headings'>{user.name}</h2>
+                <a className='btn deleteUserBtn' onClick={deleteUser}>x</a>
+            </div>
             <p className='text'>{user.description}</p>
             <div>
                 <h3 className='headings'>Interests</h3>
@@ -32,4 +53,4 @@ export default function Card( {user} ){
             </div>
         </div>
     )
-}
+});

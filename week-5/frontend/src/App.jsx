@@ -1,25 +1,38 @@
 import { useState } from 'react'
-import Card from './components/Card'
-import OldCard from './components/OldCard';
-import CardMaker from './components/CardMaker';
+import { useEffect } from 'react';
+import AddUser from './components/AddUser';
+import Card from './components/Card';
 import './App.css'
+import './index.css'
 
 function App() {
-  const [ userData, setUserData ] = useState([
-    {
-      "name": "Vineet",
-      "description": "Full stack developer",
-      "interests": ["gaming", "coding"],
-      "socials": {
-        "instagram": "link---",
-        "twitter": "link---"
+  const [ userData, setUserData ] = useState([]);
+  
+  useEffect(()=>{
+      const fetchUsers = async()=>{
+          try{
+              const response = await fetch('http://localhost:3000/user/showall');
+              const data = await response.json();
+              setUserData(data);
+          }
+          catch(error){
+              console.error(error);
+          }
       }
-    }
-  ]);
+      fetchUsers();
+
+      const intervalId = setInterval(fetchUsers, 3000);
+  }, []);
+
 
   return (
     <div>
-      <CardMaker userData={userData}></CardMaker>
+      <AddUser/>
+      <div className='container'>{
+        userData.map((user)=>{
+            return <Card key={user._id} user={user}/>
+        })}
+      </div>
     </div>
   )
 }

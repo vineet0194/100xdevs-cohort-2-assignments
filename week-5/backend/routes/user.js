@@ -30,7 +30,7 @@ router.post("/add", async (req, res)=>{
     }
     catch(e){
         return res.status(500).json({
-            message: "Some error occured, pls try again"
+            message: "Invalid data!"
         })
     }
     return res.json({
@@ -45,16 +45,18 @@ router.get("/showall", async (req, res)=>{
 
 router.post("/delete", async (req, res)=>{
     const { _id } = req.body;
-    const userDeleted = await UserModel.findOneAndDelete({_id});
 
-    if (userDeleted)
-        return res.json({
-            message: "User deleted"
-        })
-    else
-        return res.json({
-            message: "User not found"
-        })
+    try{
+        const userDeleted = await UserModel.findOneAndDelete({_id});
+        if (userDeleted)
+            return res.json({
+                message: "User deleted"
+            })
+    }catch(e){
+            return res.json({
+                message: "User not found with matching ID"
+            })
+    }
 });
 
 

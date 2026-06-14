@@ -3,6 +3,7 @@
 }
 
 .headings{
+    display: inline-block;
     color: #222222;
     margin: 5px 0px;
 }
@@ -26,6 +27,7 @@
 }
 
 .card{
+    overflow-wrap: break-word;
     width: 300px;
     border: 1px solid rgb(166, 165, 165);
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
@@ -36,4 +38,13 @@
 
 .text{
     color: #333333;
+}
+
+.space-between{
+    display: flex;
+    justify-content: space-between;
+}
+
+.deleteUserBtn{
+    background-color: #d41919  ;
 }
